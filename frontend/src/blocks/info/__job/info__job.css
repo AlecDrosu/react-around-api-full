@@ -1,0 +1,19 @@
+.info__job {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 16px 0 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 440px;
+}
+
+@media screen and (max-width: 650px) {
+    .info__job {
+        font-size: 14px;
+        line-height: 17px;
+        text-align: center;
+        margin: 14px 0 36px;
+        max-width: 282px;
+    }
+}

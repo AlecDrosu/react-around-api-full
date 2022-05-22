@@ -1,0 +1,28 @@
+.element__trash {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: auto;
+    height: 19px;
+    width: 18px;
+    background-image: url(../../../images/Group.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+    top: 18px;
+    right: 15px;
+    z-index: 1;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+}
+
+.element__trash:hover {
+    opacity: 0.6;
+}
+
+.element__trash_hidden {
+    display: none;
+}

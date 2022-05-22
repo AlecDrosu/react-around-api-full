@@ -1,0 +1,22 @@
+.title__button {
+    padding: 11px;
+    border: 1px solid #FFFFFF;
+    background-image: url(../../../images/edit.svg);
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 650px) {
+    .title__button {
+        padding: 8px;
+        margin-top: 28px;
+        background-size: 7.5px 7.5px;
+    }
+}
+
+.title__button:hover {
+    opacity: 0.6;
+}

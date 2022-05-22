@@ -1,0 +1,18 @@
+.title__icon {
+    padding: 7px;
+    border: 1px solid #FFFFFF;
+    visibility: visible;
+}
+
+@media screen and (max-width: 650px) {
+    .title__icon {
+        padding: 5.25px;
+        height: 7.5px;
+        width: 7.5px;
+        margin-top: 16px;
+    }
+}
+
+.title__icon:hover {
+    opacity: 0.6;
+}

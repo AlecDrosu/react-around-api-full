@@ -1,0 +1,11 @@
+.login__signup-link {
+  color: #FFFFFF;
+  font-size: 14px;
+  line-height: 17px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.login__signup-link:hover {
+  opacity: 0.6;
+}

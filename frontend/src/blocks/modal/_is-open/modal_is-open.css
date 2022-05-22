@@ -1,0 +1,4 @@
+.modal_is-open {
+    opacity: 1;
+    z-index: 10000;
+}

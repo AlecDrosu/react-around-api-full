@@ -1,0 +1,8 @@
+.profile__image-box {
+    position: relative;
+    border-radius: 50%;
+}
+
+.profile__image-box:hover .profile__avatar-edit {
+    display: block;
+}

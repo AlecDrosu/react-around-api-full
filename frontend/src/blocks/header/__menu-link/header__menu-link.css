@@ -1,0 +1,14 @@
+.header__menu-link {
+    color: #A9A9A9;
+    font-size: 18px;
+    line-height: 22px;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: right;
+    padding-left: 24px;
+    margin-bottom: 46px;
+}
+
+.header__menu-link:hover {
+    opacity: 0.6;
+}

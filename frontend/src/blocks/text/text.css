@@ -1,0 +1,6 @@
+.text {
+    display: flex;
+    padding: 22px 20px;
+    justify-content: space-between;
+    align-items: center;
+}

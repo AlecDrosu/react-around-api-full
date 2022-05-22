@@ -1,0 +1,17 @@
+.text__heart {
+    background-image: url(../../../images/heart.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #FFFFFF;
+    border: none;
+    height: 19px;
+    width: 21px;
+    padding: 0 0 0 21px;
+    z-index: 3;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.text__heart:hover {
+    opacity: 0.5;
+}
