@@ -1,12 +1,17 @@
 const User = require("../models/user");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const { JWT_SECRET } = require("../utils/config");
 
 const INVALID_DATA = 400;
+const UNOTHORIZED = 401;
 const NOT_FOUND = 404;
 const ERROR = 500;
 
 const createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
+  const { name, about, avatar, email, password } = req.body;
+  User.create({ name, about, avatar, email, password: hash })
     .then((user) => res.status(201).send({ user }))
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -60,7 +65,7 @@ const updateUserInfo = (req, res) => {
     {
       new: false,
       runValidators: true,
-    },
+    }
   )
     .then((user) => {
       if (!user) {
@@ -91,7 +96,7 @@ const updateUserAvatar = (req, res) => {
     {
       new: false,
       runValidators: true,
-    },
+    }
   )
     .then((user) => {
       if (!user) {
@@ -111,10 +116,42 @@ const updateUserAvatar = (req, res) => {
     });
 };
 
+const login = (req, res) => {
+  const { email, password } = req.body;
+
+  const findUser = User.findOne({ email });
+  if (!findUser) {
+    res.status(NOT_FOUND).send({ message: "User not found" });
+  }
+
+  const comparePassword = bcrypt.compareSync(password, findUser.password);
+  if (!comparePassword) {
+    res.status(UNOTHORIZED).send({ message: "Incorrect email or password" });
+  }
+
+  const token = jwt.sign({ _id: findUser._id }, JWT_SECRET, {
+    expiresIn: "7d",
+  });
+  res.status(200).send({ token });
+
+  // also could try this
+
+  // const { email, password } = req.body;
+  // return User.findUserByCredentials(email, password)
+  //   .then((user) => {
+  //     const token = jwt.sign({ _id: user._id }, process.env.SECRET);
+  //     res.status(200).send({ data: user.toJSON(), token });
+  //   })
+  //   .catch((err) => {
+  //     next(new UnauthorizedError("Invalid email or password"));
+  //   });
+};
+
 module.exports = {
   createUser,
   getUsers,
   getUser,
   updateUserInfo,
   updateUserAvatar,
+  login,
 };
