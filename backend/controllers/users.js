@@ -53,6 +53,15 @@ const getUser = (req, res) => {
     });
 };
 
+const getCurrentUser = (req, res, next) => {
+  User.findById(req.user._id)
+    .orFail(() => {
+      res.status(NOT_FOUND).send({ message: "User not found" });
+    }
+    .then((user) => res.status(200).send({ user }))
+    .catch(next);
+}
+
 const updateUserInfo = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
@@ -154,4 +163,5 @@ module.exports = {
   updateUserInfo,
   updateUserAvatar,
   login,
+  getCurrentUser,
 };
