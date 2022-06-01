@@ -128,7 +128,7 @@ const updateUserAvatar = (req, res) => {
 const login = (req, res) => {
   const { email, password } = req.body;
 
-  const findUser = User.findOne({ email });
+  const findUser = User.findOne({ email }).select("+password");
   if (!findUser) {
     res.status(NOT_FOUND).send({ message: "User not found" });
   }

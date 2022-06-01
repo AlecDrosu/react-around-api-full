@@ -16,12 +16,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/signin', login)
 app.post("/signup", createUser);
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: "624264c00febeb0fcf13c96c",
-  };
-  next();
-});
+// app.use((req, res, next) => {
+//   req.user = {
+//     _id: "624264c00febeb0fcf13c96c",
+//   };
+//   next();
+// });
 
 const { PORT = 3000 } = process.env;
 
