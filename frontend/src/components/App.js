@@ -34,6 +34,21 @@ function App() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token && isLoggedIn) {
+      api
+        .getUserInfo(token)
+        .then(([cardData, userData]) => {
+          setCards(cardData.data);
+          setCurrentUser(userData.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [isLoggedIn]);
+
+  React.useEffect(() => {
     api
       .getUserInfo()
       .then((data) => {

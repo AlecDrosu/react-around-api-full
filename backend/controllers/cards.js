@@ -34,26 +34,28 @@ const createCard = (req, res) => {
     });
 };
 
-const deleteCard = (req, res) => {
-  Card.findByIdAndRemove(req.params.cardId)
+const deleteCard = (req, res, next) => {
+  const { cardId } = req.params;
+  Card.findById(cardId)
     .orFail(() => {
       res.status(NOT_FOUND).send({ message: "Card not found" });
     })
-    .then((card) => res.send({ card }))
-    .catch((err) => {
-      if (err.name === "CastError") {
-        res.status(INVALID_DATA).send({ message: "Invalid Card ID" });
+    .then((card) => {
+      if (!card.owner.equals(req.user._id)) {
+        res.status(UNOTHORIZED).send({ message: "You are not authorized" });
       } else {
-        res.status(ERROR).send({ message: "There was an unexpected error" });
+        card.remove();
+        res.send({ message: "Card deleted" });
       }
-    });
+    })
+    .catch(next);
 };
 
 const likeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .orFail(() => {
       res.status(NOT_FOUND).send({ message: "Card not found" });
@@ -72,7 +74,7 @@ const dislikeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
     .orFail(() => {
       res.status(NOT_FOUND).send({ message: "Card not found" });
