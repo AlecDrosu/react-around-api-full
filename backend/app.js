@@ -9,6 +9,7 @@ const routes = require("./routes");
 const { login, createUser } = require("./controllers/users");
 const errorHandler = require("./middlewares/error-handler");
 const { validateLogin, validateProfile } = require("./middlewares/validators");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const app = express();
 app.use(cors());
@@ -21,14 +22,19 @@ mongoose.connect("mongodb://localhost:27017/aroundb");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(requestLogger);
+
 app.post('/signin', validateLogin, login)
 app.post("/signup", validateProfile, createUser);
+
+app.use(errorLogger);
 
 app.use(errorHandler);
 
 const { PORT = 3000 } = process.env;
 
 app.use(routes);
+
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
