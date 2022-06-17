@@ -77,10 +77,21 @@ const validateLogin = celebrate({
   },
 });
 
+const validateAuth = celebrate({
+  body: {
+    headers: Joi.object({
+      authorization: Joi.string().required().messages({
+        "string.empty": "Authorization is required",
+      }),
+    }).required(),
+  },
+});
+
 module.exports = {
   validateAvatar,
   validateProfile,
   validateId,
   validateCard,
   validateLogin,
+  validateAuth,
 };
