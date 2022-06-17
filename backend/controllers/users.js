@@ -32,7 +32,7 @@ const getUsers = (req, res) => {
     })
     .then((users) => res.status(200).send({ users }))
     .catch(() => {
-      res.status(ERROR).send({ message: "There was an unexpected error" });
+      res.status(ERROR).send({ message: "There was an unexpected error here" });
     });
 };
 
