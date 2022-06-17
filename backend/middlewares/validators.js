@@ -1,6 +1,20 @@
 const { Joi, celebrate } = require("celebrate");
 const validator = require("validator");
 
+const validateURL = (value, helpers) => {
+  if (validator.isURL(value)) {
+    return value;
+  }
+  return helpers.error("string.uri");
+};
+
+const validateEmail = (value, helpers) => {
+  if (validator.isEmail(value)) {
+    return value;
+  }
+  return helpers.error("string.uri");
+};
+
 const validateProfile = celebrate({
   body: {
     name: Joi.string().required().min(2).max(30).messages({
@@ -16,20 +30,6 @@ const validateProfile = celebrate({
     email: Joi.string().custom(validateEmail),
   },
 });
-
-const validateURL = (value, helpers) => {
-  if (validator.isURL(value)) {
-    return value;
-  }
-  return helpers.error("string.uri");
-};
-
-const validateEmail = (value, helpers) => {
-  if (validator.isEmail(value)) {
-    return value;
-  }
-  return helpers.error("string.uri");
-};
 
 const validateId = celebrate({
   // check to see if the ID is valid
