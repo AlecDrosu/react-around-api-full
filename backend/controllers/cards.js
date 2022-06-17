@@ -1,18 +1,20 @@
 const Card = require("../models/card");
 
-const INVALID_DATA = 400;
-const NOT_FOUND = 404;
+const InvalidDataError = require("../errors/invalid-data-err");
+const NotFoundError = require("../errors/not-found-err");
+const UnauthorizedError = require("../errors/unauthorized-err");
+
 const ERROR = 500;
 
 const getCards = (req, res) => {
   Card.find()
     .orFail(() => {
-      res.status(NOT_FOUND).send({ message: "Cards not found" });
+      throw new NotFoundError("Cards not Found");
     })
     .then((cards) => res.send({ cards }))
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(INVALID_DATA).send({ message: "Invalid Card ID" });
+        throw new InvalidDataError("Invalid Card ID");
       } else {
         res.status(ERROR).send({ message: "There was an unexpected error" });
       }
@@ -27,7 +29,7 @@ const createCard = (req, res) => {
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res.status(INVALID_DATA).send({ message: "Invalid Card ID" });
+        throw new InvalidDataError("Invalid Card ID");
       } else {
         res.status(ERROR).send({ message: "There was an unexpected error" });
       }
@@ -38,11 +40,11 @@ const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   Card.findById(cardId)
     .orFail(() => {
-      res.status(NOT_FOUND).send({ message: "Card not found" });
+      throw new NotFoundError("Card not found");
     })
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
-        res.status(UNOTHORIZED).send({ message: "You are not authorized" });
+        throw new UnauthorizedError("You are not authorized");
       } else {
         card.remove();
         res.send({ message: "Card deleted" });
@@ -58,12 +60,12 @@ const likeCard = (req, res) => {
     { new: true }
   )
     .orFail(() => {
-      res.status(NOT_FOUND).send({ message: "Card not found" });
+      throw new NotFoundError("Card not Found");
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(INVALID_DATA).send({ message: "Invalid Card ID" });
+        throw new InvalidDataError("Invalid Card ID");
       } else {
         res.status(ERROR).send({ message: "There was an unexpected error" });
       }
@@ -77,12 +79,12 @@ const dislikeCard = (req, res) => {
     { new: true }
   )
     .orFail(() => {
-      res.status(NOT_FOUND).send({ message: "Card not found" });
+      throw new NotFoundError("Card not Found");
     })
     .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(INVALID_DATA).send({ message: "Invalid Card ID" });
+        throw new InvalidDataError("Invalid Card ID");
       } else {
         res.status(ERROR).send({ message: "There was an unexpected error" });
       }

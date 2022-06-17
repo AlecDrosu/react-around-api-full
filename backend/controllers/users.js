@@ -16,9 +16,9 @@ const createUser = (req, res) => {
     .then((user) => res.status(201).send({ user }))
     .catch((err) => {
       if (err.name === "ValidationError") {
-        res
-          .status(INVALID_DATA)
-          .send({ message: "The information you entered was invalid" });
+        throw new InvalidDataError(
+          "There was an error validating your account"
+        );
       } else {
         res.status(ERROR).send({ message: "There was an unexpected error" });
       }
@@ -57,7 +57,7 @@ const getUser = (req, res, next) => {
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
-      next(new NotFoundError("User not found"));
+      throw new NotFoundError("User not found");
     }, next)
     .then((user) => res.status(200).send({ user }))
     .catch(next);

@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     default: "https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg",
     unique: true,
     validate: {
-      validate: validator.isURL,
+      validator: validator.isURL,
       message: "Invalid URL",
     },
   },
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     validate: {
-      validate: validator.isEmail,
+      validator: validator.isEmail,
       message: "Invalid email",
     },
   },
