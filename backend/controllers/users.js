@@ -4,9 +4,10 @@ const jwt = require("jsonwebtoken");
 
 const { JWT_SECRET } = require("../utils/config");
 
-const INVALID_DATA = 400;
-const UNOTHORIZED = 401;
-const NOT_FOUND = 404;
+const UnauthorizedError = require("../errors/unauthorized-err");
+const InvalidDataError = require("../errors/invalid-data-err");
+const NotFoundError = require("../errors/not-found-err");
+
 const ERROR = 500;
 
 const createUser = (req, res) => {
@@ -27,7 +28,7 @@ const createUser = (req, res) => {
 const getUsers = (req, res) => {
   User.find()
     .orFail(() => {
-      res.status(NOT_FOUND).send({ message: "Users not found" });
+      throw new NotFoundError("Users not found");
     })
     .then((users) => res.status(200).send({ users }))
     .catch(() => {
@@ -35,18 +36,18 @@ const getUsers = (req, res) => {
     });
 };
 
-const getUser = (req, res) => {
+const getUser = (req, res, next) => {
   User.findById(req.params.userId)
     .then((user) => {
       if (!user) {
-        res.status(NOT_FOUND).send({ message: "User not found" });
+        next(new NotFoundError("User not found"));
       } else {
         res.status(200).send({ user });
       }
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(INVALID_DATA).send({ message: "Invalid user ID" });
+        next(new InvalidDataError("Invalid user id or password"));
       } else {
         res.status(ERROR).send({ message: "There was an unexpected error" });
       }
@@ -56,13 +57,13 @@ const getUser = (req, res) => {
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
-      res.status(NOT_FOUND).send({ message: "User not found" });
+      next(new NotFoundError("User not found"));
     }, next)
     .then((user) => res.status(200).send({ user }))
     .catch(next);
 };
 
-const updateUserInfo = (req, res) => {
+const updateUserInfo = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     {
@@ -78,23 +79,23 @@ const updateUserInfo = (req, res) => {
   )
     .then((user) => {
       if (!user) {
-        res.status(NOT_FOUND).send({ message: "User not found" });
+        next(new NotFoundError("User not found"));
       } else {
         res.status(200).send({ user });
       }
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(INVALID_DATA).send({ message: "Invalid User ID" });
+        next(new InvalidDataError("Invalid user id"));
       } else if (err.name === "ValidationError") {
-        res.status(INVALID_DATA).send({ message: "Invalid data" });
+        next(new InvalidDataError("Invalid data"));
       } else {
         res.status(ERROR).send({ message: "There was an unexpected error" });
       }
     });
 };
 
-const updateUserAvatar = (req, res) => {
+const updateUserAvatar = (req, res, next) => {
   User.findByIdUpdate(
     req.user._id,
     {
@@ -109,33 +110,33 @@ const updateUserAvatar = (req, res) => {
   )
     .then((user) => {
       if (!user) {
-        res.status(NOT_FOUND).send({ message: "User not found" });
+        next(new NotFoundError("User not found"));
       } else {
         res.status(200).send({ user });
       }
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(INVALID_DATA).send({ message: "Invalid user id" });
+        next(new InvalidDataError("Invalid user id"));
       } else if (err.name === "ValidationError") {
-        res.status(INVALID_DATA).send({ message: "Invalid data" });
+        next(new InvalidDataError("Invalid data"));
       } else {
         res.status(ERROR).send({ message: "There was an unexpected error" });
       }
     });
 };
 
-const login = (req, res) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
 
   const findUser = User.findOne({ email }).select("+password");
   if (!findUser) {
-    res.status(NOT_FOUND).send({ message: "User not found" });
+    next(new NotFoundError("User not found"));
   }
 
   const comparePassword = bcrypt.compareSync(password, findUser.password);
   if (!comparePassword) {
-    res.status(UNOTHORIZED).send({ message: "Incorrect email or password" });
+    next(new UnauthorizedError("Incorrect email or password"));
   }
 
   const token = jwt.sign({ _id: findUser._id }, JWT_SECRET, {
