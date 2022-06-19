@@ -84,14 +84,14 @@ class Api {
   }
 }
 
-const config = {
-  baseUrl: "https://around.nomoreparties.co/v1/group-11",
-  cardUrl: "https://around.nomoreparties.co/v1/group-11/cards",
-  headers: {
-    authorization: "807a4335-951b-4493-9e81-0010a6738faf",
-    "Content-Type": "application/json",
-  },
-};
+// const config = {
+//   baseUrl: "https://around.nomoreparties.co/v1/group-11",
+//   cardUrl: "https://around.nomoreparties.co/v1/group-11/cards",
+//   headers: {
+//     authorization: "807a4335-951b-4493-9e81-0010a6738faf",
+//     "Content-Type": "application/json",
+//   },
+// };
 
 // const api = new Api(config);
 
