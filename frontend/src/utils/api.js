@@ -95,8 +95,18 @@ class Api {
 
 // const api = new Api(config);
 
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://api.alecfinalproject.students.nomoreparties.sbs"
+    : "http://localhost:3000";
+
 const api = new Api({
-  address: "http://localhost:3000",
+  baseUrl: BASE_URL,
+  cardUrl: `${BASE_URL}/cards`,
+  headers: {
+    authorization: `Bearer ${localStorage.getItem("token")}`,
+    "Content-Type": "application/json",
+  },
 });
 
 export default api;
