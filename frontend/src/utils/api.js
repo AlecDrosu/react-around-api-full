@@ -17,7 +17,7 @@ class Api {
 
   getCards() {
     // fetch the url with the token: 807a4335-951b-4493-9e81-0010a6738faf
-    return fetch(this._cardUrl, {
+    return fetch(`${this._baseUrl}/cards`, {
       method: "GET",
       headers: this._headers,
     }).then(this._checkResponse);
