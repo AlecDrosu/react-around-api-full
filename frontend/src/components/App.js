@@ -1,55 +1,52 @@
-import Footer from "./Footer";
-import Header from "./Header";
-import Main from "./Main";
-import AddPlacePopup from "./AddPlacePopup";
-import EditProfilePopup from "./EditProfilePopup";
-import PopupWithConfirm from "./PopupWithConfirm";
-import EditAvatarPopup from "./EditAvatarPopup";
-import React from "react";
-import ImagePopup from "./ImagePopup";
-import api from "../utils/api";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import ProtectedRoute from "./ProtectedRoute";
+import Footer                                   from "./Footer";
+import Header                                   from "./Header";
+import Main                                     from "./Main";
+import AddPlacePopup                            from "./AddPlacePopup";
+import EditProfilePopup                         from "./EditProfilePopup";
+import PopupWithConfirm                         from "./PopupWithConfirm";
+import EditAvatarPopup                          from "./EditAvatarPopup";
+import React                                    from "react";
+import ImagePopup                               from "./ImagePopup";
+import api                                      from "../utils/api";
+import { CurrentUserContext }                   from "../contexts/CurrentUserContext";
+import ProtectedRoute                           from "./ProtectedRoute";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import Login from "./Login";
-import Register from "./Register";
-import InfoTooltip from "./InfoTooltip";
-import * as auth from "../utils/auth";
+import Login                                    from "./Login";
+import Register                                 from "./Register";
+import InfoTooltip                              from "./InfoTooltip";
+import * as auth                                from "../utils/auth";
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-    React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false);
-  const [isPopupWithConfirmOpen, setIsPopupWithConfirmOpen] =
-    React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState({});
-  const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
-  const [currentUser, setCurrentUser] = React.useState({});
-  const [cards, setCards] = React.useState([]);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [tooltipStatus, setTooltipStatus] = React.useState("");
-  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =   React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] =         React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =     React.useState(false);
+  const [isPopupWithConfirmOpen, setIsPopupWithConfirmOpen] =   React.useState(false);
+  const [selectedCard, setSelectedCard] =                       React.useState({});
+  const [isImagePopupOpen, setIsImagePopupOpen] =               React.useState(false);
+  const [currentUser, setCurrentUser] =                         React.useState({});
+  const [cards, setCards] =                                     React.useState([]);
+  const [isLoggedIn, setIsLoggedIn] =                           React.useState(false);
+  const [tooltipStatus, setTooltipStatus] =                     React.useState("");
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] =             React.useState(false);
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token && isLoggedIn) {
-      api
-        .getUserInfo(token)
-        .then(([cardData, userData]) => {
-          setCards(cardData.data);
-          setCurrentUser(userData.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [isLoggedIn]);
+  // React.useEffect(() => {
+  //   const token = localStorage.getItem("jwt");
+  //   if (token && isLoggedIn) {
+  //     api
+  //       .getUserInfo(token)
+  //       .then(([cardData, userData]) => {
+  //         setCards(cardData.data);
+  //         setCurrentUser(userData.data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [isLoggedIn]);
 
   React.useEffect(() => {
-    api
+    isLoggedIn && api
       .getUserInfo()
       .then((data) => {
         setCurrentUser(data);
@@ -57,21 +54,22 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
-    api
-      .getCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    isLoggedIn &&
+      api
+        .getCards()
+        .then((data) => {
+          setCards(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
-    const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem("token");
     if (token) {
       auth
         .checkToken(token)
@@ -80,7 +78,7 @@ function App() {
             setIsLoggedIn(true);
             navigate("/");
           } else {
-            localStorage.removeItem("jwt");
+            localStorage.removeItem("token");
           }
         })
         .catch((err) => {
