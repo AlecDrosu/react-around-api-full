@@ -1,6 +1,12 @@
 // authentication file
 
-const BASE_URL = "https://register.nomoreparties.co";
+// const BASE_URL = "https://register.nomoreparties.co";
+
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://api.alecfinalproject.students.nomoreparties.sbs"
+    : "http://localhost:3000";
+
 const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
