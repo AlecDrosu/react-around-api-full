@@ -95,10 +95,12 @@ class Api {
 
 // const api = new Api(config);
 
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://api.alecfinalproject.students.nomoreparties.sbs"
-    : "http://localhost:3000";
+// const BASE_URL =
+//   process.env.NODE_ENV === "production"
+//     ? "https://api.alecfinalproject.students.nomoreparties.sbs"
+//     : "http://localhost:3000";
+
+const BASE_URL = "https://api.alecfinalproject.students.nomoreparties.sbs";
 
 const api = new Api({
   baseUrl: BASE_URL,
