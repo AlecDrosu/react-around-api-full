@@ -79,6 +79,9 @@ function App() {
             navigate("/");
           } else {
             localStorage.removeItem("token");
+            api.updateToken(null);
+            setIsLoggedIn(false);
+            navigate("/login");
           }
         })
         .catch((err) => {
@@ -192,6 +195,7 @@ function App() {
         if (res.token) {
           setIsLoggedIn(true);
           localStorage.setItem("token", res.token);
+          api.updateToken(res.token);
           navigate("/");
         } else {
           setTooltipStatus("fail");

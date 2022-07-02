@@ -15,6 +15,13 @@ class Api {
     return Promise.reject(`Error: ${res.status}`);
   }
 
+  updateToken(token) {
+    this._headers = {
+      ...this._headers,
+      authorization: `Bearer ${token}`,
+    };
+  }
+
   getCards() {
     // fetch the url with the token: 807a4335-951b-4493-9e81-0010a6738faf
     return fetch(`${this._baseUrl}/cards`, {
@@ -100,16 +107,15 @@ class Api {
 //     ? "https://api.alecfinalproject.students.nomoreparties.sbs"
 //     : "http://localhost:3000";
 
-
 // const api = new Api({
-  //   baseUrl: BASE_URL,
-  //   cardUrl: `${BASE_URL}/cards`,
-  //   headers: {
-    //     authorization: `Bearer ${localStorage.getItem("token")}`,
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    
+//   baseUrl: BASE_URL,
+//   cardUrl: `${BASE_URL}/cards`,
+//   headers: {
+//     authorization: `Bearer ${localStorage.getItem("token")}`,
+//     "Content-Type": "application/json",
+//   },
+// });
+
 const BASE_URL = "https://api.alecfinalproject.students.nomoreparties.sbs";
 
 console.log(BASE_URL);
