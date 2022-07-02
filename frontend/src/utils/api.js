@@ -116,7 +116,7 @@ class Api {
 //   },
 // });
 
-const BASE_URL = "api.alecfinalproject.students.nomoreparties.sbs";
+const BASE_URL = "https://api.alecfinalproject.students.nomoreparties.sbs";
 
 console.log(BASE_URL);
 
