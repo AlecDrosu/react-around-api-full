@@ -180,7 +180,7 @@ function App() {
   };
 
   const onSignOut = () => {
-    localStorage.removeItem("jwt");
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
     navigate("/signin");
   };
@@ -191,7 +191,7 @@ function App() {
       .then((res) => {
         if (res.token) {
           setIsLoggedIn(true);
-          localStorage.setItem("jwt", res.token);
+          localStorage.setItem("token", res.token);
           navigate("/");
         } else {
           setTooltipStatus("fail");
