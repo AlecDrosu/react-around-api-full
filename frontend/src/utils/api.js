@@ -100,15 +100,29 @@ class Api {
 //     ? "https://api.alecfinalproject.students.nomoreparties.sbs"
 //     : "http://localhost:3000";
 
+
+// const api = new Api({
+  //   baseUrl: BASE_URL,
+  //   cardUrl: `${BASE_URL}/cards`,
+  //   headers: {
+    //     authorization: `Bearer ${localStorage.getItem("token")}`,
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    
 const BASE_URL = "https://api.alecfinalproject.students.nomoreparties.sbs";
 
-const api = new Api({
+console.log(BASE_URL);
+
+const config = {
   baseUrl: BASE_URL,
   cardUrl: `${BASE_URL}/cards`,
   headers: {
     authorization: `Bearer ${localStorage.getItem("token")}`,
     "Content-Type": "application/json",
   },
-});
+};
+
+const api = new Api(config);
 
 export default api;
