@@ -50,4 +50,7 @@ app.use(routes);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
+  console.log(`Connected to ${url}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
+  console.log(`url is type of ${typeof url}`);
 });
