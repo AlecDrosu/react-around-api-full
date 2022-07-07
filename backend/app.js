@@ -22,9 +22,19 @@ app.options("*", cors());
 
 const { PORT = 3000 } = process.env;
 
-const url = process.env.CONNECTION_URL;
+const url = process.env.CONNECTION_URL.toString();
 
-mongoose.connect(url);
+mongoose
+  .connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log("Error connecting to MongoDB: ", err.message);
+  });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,9 +59,9 @@ app.use(errorHandler);
 app.use(routes);
 
 app.listen(PORT, () => {
-  console.log('+++++++++++++++++++++++++++++++++++++++++++++++++')
+  console.log("+++++++++++++++++++++++++++++++++++++++++++++++++");
   console.log(`Listening on port ${PORT}`);
-  console.log(`Connected to ${url}`);
+  console.log(`URL: ${url}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
-  console.log(`url is type of ${typeof url}`);
+  console.log(`url is a: ${typeof url}`);
 });
