@@ -49,6 +49,7 @@ app.use(errorHandler);
 app.use(routes);
 
 app.listen(PORT, () => {
+  console.log('+++++++++++++++++++++++++++++++++++++++++++++++++')
   console.log(`Listening on port ${PORT}`);
   console.log(`Connected to ${url}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
