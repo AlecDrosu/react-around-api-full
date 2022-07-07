@@ -30,7 +30,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB :)");
   })
   .catch((err) => {
     console.log("Error connecting to MongoDB: ", err.message);
@@ -64,4 +64,5 @@ app.listen(PORT, () => {
   console.log(`URL: ${url}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
   console.log(`url is a: ${typeof url}`);
+  console.log("----------------------------------------------------");
 });
