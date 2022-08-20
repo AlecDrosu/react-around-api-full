@@ -7,13 +7,13 @@ import PopupWithConfirm                         from "./PopupWithConfirm";
 import EditAvatarPopup                          from "./EditAvatarPopup";
 import React                                    from "react";
 import ImagePopup                               from "./ImagePopup";
-import api                                      from "../utils/api";
 import { CurrentUserContext }                   from "../contexts/CurrentUserContext";
 import ProtectedRoute                           from "./ProtectedRoute";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import Login                                    from "./Login";
 import Register                                 from "./Register";
 import InfoTooltip                              from "./InfoTooltip";
+import api                                      from "../utils/api";
 import auth                                     from "../utils/auth";
 
 function App() {

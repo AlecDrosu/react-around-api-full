@@ -18,7 +18,7 @@ const validateEmail = (value, helpers) => {
 const validateProfile = celebrate({
   body: {
     name: Joi.string().required().min(2).max(30).messages({
-      "string.empty": "Name is required",
+      "string.empty": "Name is required (error here 1)",
       "string.min": "Name must be at least 2 characters long",
       "string.max": "Name must be less than 30 characters long",
     }),

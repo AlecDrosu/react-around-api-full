@@ -10,18 +10,27 @@ const NotFoundError = require("../errors/not-found-err");
 
 const ERROR = 500;
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
-  User.create({ name, about, avatar, email, password: hash })
-    .then((user) => res.status(201).send({ user }))
-    .catch((err) => {
-      if (err.name === "ValidationError") {
-        throw new InvalidDataError(
-          "There was an error validating your account"
-        );
+  User.findOne({ email })
+    .then((user) => {
+      if (user) {
+        throw new InvalidDataError(`User with email ${email} already exists`);
       } else {
-        res.status(ERROR).send({ message: "There was an unexpected error" });
+        return bcrypt.hash(password, 10);
       }
+    })
+    .then((hash) => {
+      User.create({ name, about, avatar, email, password: hash })
+        .then((user) => {
+          res.status(201).json({ data: user });
+        })
+        .catch((err) => {
+          next(err);
+        });
+    })
+    .catch((err) => {
+      next(err);
     });
 };
 
