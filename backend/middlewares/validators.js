@@ -5,18 +5,18 @@ const validateURL = (value, helpers) => {
   if (validator.isURL(value)) {
     return value;
   }
-  return helpers.error("string.uri");
+  return helpers.message("invalid URL");
 };
 
 const validateEmail = (value, helpers) => {
   if (validator.isEmail(value)) {
     return value;
   }
-  return helpers.error("string.uri");
+  return helpers.message("invalid Email");
 };
 
 const validateProfile = celebrate({
-  body: {
+  body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30).messages({
       "string.empty": "Name is required (error here 1)",
       "string.min": "Name must be at least 2 characters long",
@@ -28,30 +28,30 @@ const validateProfile = celebrate({
       "string.max": "About must be less than 30 characters long",
     }),
     email: Joi.string().custom(validateEmail),
-  },
+  }),
 });
 
 const validateId = celebrate({
   // check to see if the ID is valid
-  params: {
+  params: Joi.object().keys({
     userId: Joi.string().alphanum().required().messages({
       "string.empty": "User ID is required",
       "string.alphanum": "User ID must be alphanumeric",
     }),
-  },
+  }),
 });
 
 const validateAvatar = celebrate({
-  body: {
+  body: Joi.object().keys({
     avatar: Joi.string().required().custom(validateURL).messages({
       "string.empty": "Avatar is required",
       "string.pattern.base": "Avatar must be a link",
     }),
-  },
+  }),
 });
 
 const validateCard = celebrate({
-  body: {
+  body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30).messages({
       "string.empty": "Name is required",
       "string.min": "Name must be at least 2 characters long",
@@ -61,11 +61,11 @@ const validateCard = celebrate({
       "string.empty": "Link is required",
       "string.pattern.base": "Link must be a link",
     }),
-  },
+  }),
 });
 
 const validateLogin = celebrate({
-  body: {
+  body: Joi.object().keys({
     email: Joi.string().required().custom(validateEmail).messages({
       "string.empty": "Email is required",
       "string.pattern.base": "Email must be a valid email",
@@ -74,17 +74,17 @@ const validateLogin = celebrate({
       "string.empty": "Password is required",
       "string.min": "Password must be at least 8 characters long",
     }),
-  },
+  }),
 });
 
 const validateAuth = celebrate({
-  body: {
+  body: Joi.object().keys({
     headers: Joi.object({
       authorization: Joi.string().required().messages({
         "string.empty": "Authorization is required",
       }),
     }).required(),
-  },
+  }),
 });
 
 module.exports = {
