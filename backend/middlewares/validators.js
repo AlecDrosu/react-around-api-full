@@ -17,17 +17,21 @@ const validateEmail = (value, helpers) => {
 
 const validateProfile = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30).messages({
+    name: Joi.string().min(2).max(30).messages({
       "string.empty": "Name is required (error here 1)",
       "string.min": "Name must be at least 2 characters long",
       "string.max": "Name must be less than 30 characters long",
     }),
-    about: Joi.string().required().min(2).max(30).messages({
+    about: Joi.string().min(2).max(30).messages({
       "string.empty": "About is required",
       "string.min": "About must be at least 2 characters long",
       "string.max": "About must be less than 30 characters long",
     }),
-    email: Joi.string().custom(validateEmail),
+    email: Joi.string().required().custom(validateEmail),
+    password: Joi.string().required().min(8).messages({
+      "string.empty": "Password is required",
+      "string.min": "Password must be at least 8 characters long",
+    }),
   }),
 });
 
@@ -43,7 +47,7 @@ const validateId = celebrate({
 
 const validateAvatar = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().required().custom(validateURL).messages({
+    avatar: Joi.string().custom(validateURL).messages({
       "string.empty": "Avatar is required",
       "string.pattern.base": "Avatar must be a link",
     }),
@@ -52,7 +56,7 @@ const validateAvatar = celebrate({
 
 const validateCard = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30).messages({
+    name: Joi.string().min(2).max(30).messages({
       "string.empty": "Name is required",
       "string.min": "Name must be at least 2 characters long",
       "string.max": "Name must be less than 30 characters long",

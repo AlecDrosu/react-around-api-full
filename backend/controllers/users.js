@@ -138,32 +138,14 @@ const updateUserAvatar = (req, res, next) => {
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
-  const findUser = User.findOne({ email }).select("+password");
-  if (!findUser) {
-    next(new NotFoundError("User not found"));
-  }
-
-  const comparePassword = bcrypt.compareSync(password, findUser.password);
-  if (!comparePassword) {
-    next(new UnauthorizedError("Incorrect email or password"));
-  }
-
-  const token = jwt.sign({ _id: findUser._id }, JWT_SECRET, {
-    expiresIn: "7d",
+  return User.findUserByCredentials(email, password)
+  .then((user) => {
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+    res.status(200).send({ data: user.toJSON(), token });
+  })
+  .catch(() => {
+    next(new UnauthorizedError("Invalid email or password"));
   });
-  res.status(200).send({ token });
-
-  // also could try this
-
-  // const { email, password } = req.body;
-  // return User.findUserByCredentials(email, password)
-  //   .then((user) => {
-  //     const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-  //     res.status(200).send({ data: user.toJSON(), token });
-  //   })
-  //   .catch((err) => {
-  //     next(new UnauthorizedError("Invalid email or password"));
-  //   });
 };
 
 module.exports = {
