@@ -104,18 +104,43 @@ const updateUserInfo = (req, res, next) => {
     });
 };
 
+// const updateUserAvatar = (req, res, next) => {
+//   User.findByIdUpdate(
+//     req.user._id,
+//     {
+//       $set: {
+//         avatar: req.body.avatar,
+//       },
+//     },
+//     {
+//       new: false,
+//       runValidators: true,
+//     }
+//   )
+//     .then((user) => {
+//       if (!user) {
+//         next(new NotFoundError("User not found"));
+//       } else {
+//         res.status(200).send({ user });
+//       }
+//     })
+//     .catch((err) => {
+//       if (err.name === "CastError") {
+//         next(new InvalidDataError("Invalid user id"));
+//       } else if (err.name === "ValidationError") {
+//         next(new InvalidDataError("Invalid data"));
+//       } else {
+//         res.status(ERROR).send({ message: "There was an unexpected error" });
+//       }
+//     });
+// };
+
 const updateUserAvatar = (req, res, next) => {
-  User.findByIdUpdate(
+  const { avatar } = req.body;
+  User.findByIdAndUpdate(
     req.user._id,
-    {
-      $set: {
-        avatar: req.body.avatar,
-      },
-    },
-    {
-      new: false,
-      runValidators: true,
-    }
+    { avatar },
+    { new: false, runValidators: true }
   )
     .then((user) => {
       if (!user) {
@@ -139,13 +164,13 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
-  .then((user) => {
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-    res.status(200).send({ data: user.toJSON(), token });
-  })
-  .catch(() => {
-    next(new UnauthorizedError("Invalid email or password"));
-  });
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+      res.status(200).send({ data: user.toJSON(), token });
+    })
+    .catch(() => {
+      next(new UnauthorizedError("Invalid email or password"));
+    });
 };
 
 module.exports = {
