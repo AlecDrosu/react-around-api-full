@@ -82,13 +82,11 @@ const validateLogin = celebrate({
 });
 
 const validateAuth = celebrate({
-  body: Joi.object().keys({
-    headers: Joi.object({
-      authorization: Joi.string().required().messages({
-        "string.empty": "Authorization is required",
-      }),
-    }).required(),
-  }),
+  headers: Joi.object().keys({
+    authorization: Joi.string().required().messages({
+      "string.empty": "Authorization is required",
+    }),
+  }).unknown(true),
 });
 
 module.exports = {

@@ -8,10 +8,10 @@ This repository contains the full API of "Around the U.S." project that features
 
 domain names:
 
-alecfinalproject.students.nomoreparties.sbs
+alecdrosu.students.nomoredomainssbs.ru
 
 This site can be accessed with and without www. in front
 
 api domain address:
 
-api.alecfinalproject.students.nomoreparties.sbs
+api.alecdrosu.students.nomoredomainssbs.ru

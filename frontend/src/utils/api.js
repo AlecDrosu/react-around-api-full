@@ -91,32 +91,7 @@ class Api {
   }
 }
 
-// const config = {
-//   baseUrl: "https://around.nomoreparties.co/v1/group-11",
-//   cardUrl: "https://around.nomoreparties.co/v1/group-11/cards",
-//   headers: {
-//     authorization: "807a4335-951b-4493-9e81-0010a6738faf",
-//     "Content-Type": "application/json",
-//   },
-// };
-
-// const api = new Api(config);
-
-// const BASE_URL =
-//   process.env.NODE_ENV === "production"
-//     ? "https://api.alecfinalproject.students.nomoreparties.sbs"
-//     : "http://localhost:3000";
-
-// const api = new Api({
-//   baseUrl: BASE_URL,
-//   cardUrl: `${BASE_URL}/cards`,
-//   headers: {
-//     authorization: `Bearer ${localStorage.getItem("token")}`,
-//     "Content-Type": "application/json",
-//   },
-// });
-
-const BASE_URL = "https://api.alecfinalproject.students.nomoreparties.sbs";
+const BASE_URL = "https://api.alecdrosu.students.nomoredomainssbs.ru";
 
 console.log(BASE_URL);
 

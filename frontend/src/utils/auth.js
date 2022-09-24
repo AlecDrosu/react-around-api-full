@@ -1,13 +1,5 @@
-// authentication file
 
-// const BASE_URL = "https://register.nomoreparties.co";
-
-// const BASE_URL =
-//   process.env.NODE_ENV === "production"
-//     ? "https://api.alecfinalproject.students.nomoreparties.sbs"
-//     : "http://localhost:3000";
-
-const BASE_URL = "https://api.alecfinalproject.students.nomoreparties.sbs";
+const BASE_URL = "https://api.alecdrosu.students.nomoredomainssbs.ru";
 
 class Auth {
   constructor({ baseUrl, headers }) {
