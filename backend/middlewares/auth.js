@@ -10,9 +10,11 @@ const auth = (req, res, next) => {
   }
   jwt.verify(token, NODE_ENV === 'production', JWT_SECRET, (err, decoded) => {
     if (err) {
+      console.log(`Error: ${err}`);
       return res.status(UNAUTHORIZED).send({ message: "Invalid token" });
     }
     req.user = decoded;
+    console.log(`server.js: req.user = ${req.user}`);
     next();
   });
 };
