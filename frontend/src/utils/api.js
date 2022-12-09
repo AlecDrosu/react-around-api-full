@@ -94,7 +94,7 @@ class Api {
 
 // const BASE_URL = "https://api.alecdrosu.students.nomoredomainssbs.ru";
 
-const BASE_URL = process.env.NODE_ENV === "production" ? "https://api.alecdrosu.students.nomoredomainssbs.ru" : "http://localhost:3001";
+const BASE_URL = process.env.NODE_ENV === "production" ? "https://api.alecdrosu.students.nomoredomainssbs.ru" : "http://localhost:3000";
 
 console.log(BASE_URL);
 

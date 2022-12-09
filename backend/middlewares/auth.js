@@ -4,6 +4,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const UNAUTHORIZED = 401;
 
 const auth = (req, res, next) => {
+  console.log('Auth middleware');
   const token = req.headers.authorization;
   if (!token) {
     return res.status(UNAUTHORIZED).send({ message: "No token provided" });

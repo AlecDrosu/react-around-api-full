@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NODE_ENV === "production" ? "https://api.alecdrosu.students.nomoredomainssbs.ru" : "http://localhost:3001";
+const BASE_URL = process.env.NODE_ENV === "production" ? "https://api.alecdrosu.students.nomoredomainssbs.ru" : "http://localhost:3000";
 
 class Auth {
   constructor({ baseUrl, headers }) {

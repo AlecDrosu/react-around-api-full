@@ -8,6 +8,7 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 
 const routes = require("./routes");
+const authRoute = require('./middlewares/auth');
 const { login, createUser } = require("./controllers/users");
 const errorHandler = require("./middlewares/error-handler");
 const { validateLogin, validateProfile } = require("./middlewares/validators");
@@ -17,6 +18,7 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 app.options("*", cors());
+
 
 // const { CONNECTION_URL, PORT = 3000 } = process.env;
 
@@ -49,6 +51,8 @@ app.get("/crash-test", () => {
 
 app.post("/signin", validateLogin, login);
 app.post("/signup", validateProfile, createUser);
+
+app.use(authRoute);
 
 app.use(errorLogger);
 
